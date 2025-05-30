@@ -10,7 +10,7 @@ let frame = 0;
 let gameRunning = false;
 
 const birdImg = new Image();
-birdImg.src = "assets/chain.png";
+birdImg.src = "chain.png";
 
 let bird = {
   x: 50,

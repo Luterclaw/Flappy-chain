@@ -34,7 +34,7 @@ body {
   font-weight: bold;
 }
 canvas {
-  background: url('assets/watch.png') center/cover no-repeat;
+  background: url('watch.png') center/cover no-repeat;
   display: block;
   margin: auto;
 }
