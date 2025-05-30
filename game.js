@@ -9,16 +9,20 @@ let score = 0;
 let frame = 0;
 let gameRunning = false;
 
-// Nuevas dimensiones basadas en imágenes reales
 const BIRD_WIDTH = 40;
 const BIRD_HEIGHT = 40;
 const OBSTACLE_WIDTH = 28;
 
 const birdImg = new Image();
-birdImg.src = "character_gold_full.webp";
+birdImg.src = "character_gold_centered.webp";
 
-const pipeImg = new Image();
-pipeImg.src = "obstacle_chain_thick_gold.webp";
+const pipeTexture = new Image();
+pipeTexture.src = "obstacle_chain_thick_gold.webp";
+
+let pipePattern = null;
+pipeTexture.onload = () => {
+  pipePattern = ctx.createPattern(pipeTexture, "repeat-y");
+};
 
 let bird = {
   x: 60,
@@ -35,9 +39,11 @@ function drawBird() {
 }
 
 function drawPipes() {
+  if (!pipePattern) return;
   pipes.forEach(pipe => {
-    ctx.drawImage(pipeImg, pipe.x, 0, OBSTACLE_WIDTH, pipe.top);
-    ctx.drawImage(pipeImg, pipe.x, pipe.bottom, OBSTACLE_WIDTH, canvas.height - pipe.bottom);
+    ctx.fillStyle = pipePattern;
+    ctx.fillRect(pipe.x, 0, OBSTACLE_WIDTH, pipe.top);
+    ctx.fillRect(pipe.x, pipe.bottom, OBSTACLE_WIDTH, canvas.height - pipe.bottom);
   });
 }
 
