@@ -1,62 +1,41 @@
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-const scoreDisplay = document.getElementById("scoreDisplay");
 
-let gravity = 0.25;
-let lift = -4.6;
-let score = 0;
-let frame = 0;
-let gameRunning = false;
-
-const BIRD_WIDTH = 40;
-const BIRD_HEIGHT = 40;
-const OBSTACLE_WIDTH = 60;
-const CHAIN_SEGMENT_HEIGHT = 80;
-
-const birdImg = new Image();
-birdImg.src = "character_gold_centered.webp";
-
-const chainImg = new Image();
-chainImg.src = "chain_segment_gold.webp";
-
-let bird = {
-  x: 60,
-  y: 200,
-  width: BIRD_WIDTH,
-  height: BIRD_HEIGHT,
-  velocity: 0
-};
-
+let bird = { x: 50, y: 150, width: 40, height: 40, velocity: 0 };
+let gravity = 0.6;
+let lift = -10;
 let pipes = [];
+let frame = 0;
+let score = 0;
+let gameRunning = true;
+let OBSTACLE_WIDTH = 60;
+let characterImg = new Image();
+characterImg.src = "character_gold_centered.webp";
+let columnImg = new Image();
+columnImg.src = "solid_gold_column.webp";
+let scoreDisplay = document.getElementById("score");
 
 function drawBird() {
-  ctx.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
-}
-
-function drawChainStack(x, yStart, height) {
-  let y = yStart;
-  while (y < yStart + height) {
-    ctx.drawImage(chainImg, x, y, OBSTACLE_WIDTH, CHAIN_SEGMENT_HEIGHT);
-    y += CHAIN_SEGMENT_HEIGHT;
-  }
+  ctx.drawImage(characterImg, bird.x, bird.y, bird.width, bird.height);
 }
 
 function drawPipes() {
   pipes.forEach(pipe => {
-    drawChainStack(pipe.x, 0, pipe.top);
-    drawChainStack(pipe.x, pipe.bottom, canvas.height - pipe.bottom);
+    ctx.drawImage(columnImg, pipe.x, 0, OBSTACLE_WIDTH, pipe.top);
+    ctx.drawImage(columnImg, pipe.x, pipe.bottom, OBSTACLE_WIDTH, canvas.height - pipe.bottom);
   });
 }
 
 function updatePipes() {
   if (frame % 90 === 0) {
     let gap = 130;
-    let centerY = Math.random() * (canvas.height - gap - 100) + 50; // margen de seguridad
+    let centerY = Math.random() * (canvas.height - gap - 100) + 50;
     let top = centerY - gap / 2;
     let bottom = centerY + gap / 2;
     pipes.push({ x: canvas.width, top: top, bottom: bottom, scored: false });
   }
+
   pipes.forEach(pipe => {
     pipe.x -= 2;
     if (!pipe.scored && pipe.x + OBSTACLE_WIDTH < bird.x) {
@@ -65,63 +44,57 @@ function updatePipes() {
       pipe.scored = true;
     }
   });
-  pipes = pipes.filter(pipe => pipe.x + OBSTACLE_WIDTH > 0);
 }
 
-function checkCollision() {
-  for (let pipe of pipes) {
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBird();
+  drawPipes();
+}
+
+function update() {
+  bird.velocity += gravity;
+  bird.y += bird.velocity;
+
+  updatePipes();
+
+  if (bird.y + bird.height > canvas.height || bird.y < 0) {
+    endGame();
+  }
+
+  pipes.forEach(pipe => {
     if (
-      bird.x + bird.width > pipe.x &&
       bird.x < pipe.x + OBSTACLE_WIDTH &&
+      bird.x + bird.width > pipe.x &&
       (bird.y < pipe.top || bird.y + bird.height > pipe.bottom)
     ) {
       endGame();
     }
-  }
-  if (bird.y + bird.height > canvas.height || bird.y < 0) {
-    endGame();
+  });
+}
+
+function gameLoop() {
+  if (gameRunning) {
+    draw();
+    update();
+    frame++;
+    requestAnimationFrame(gameLoop);
   }
 }
 
 function endGame() {
   gameRunning = false;
   document.getElementById("gameOverScreen").style.display = "block";
-
   const finalMessage = score >= 30
     ? "🎉 ¡Felicidades! Obtenés un 30% de descuento con el código: FLAPPY-30"
     : "Gracias por jugar. ¡Superá los 30 puntos para ganar un premio!";
-
   document.getElementById("finalScoreText").innerText = `Puntaje final: ${score}\n${finalMessage}`;
-
   const link = document.querySelector("#gameOverScreen a");
   link.style.display = score >= 30 ? "block" : "none";
 }
 
-function gameLoop() {
-  if (!gameRunning) return;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBird();
-  drawPipes();
-  updatePipes();
-  bird.velocity += gravity;
-  bird.y += bird.velocity;
-  checkCollision();
-  frame++;
-  requestAnimationFrame(gameLoop);
-}
+document.addEventListener("keydown", () => {
+  if (gameRunning) bird.velocity = lift;
+});
 
-function startGame() {
-  document.getElementById("startScreen").style.display = "none";
-  canvas.style.display = "block";
-  scoreDisplay.style.display = "block";
-  bird.y = 200;
-  bird.velocity = 0;
-  score = 0;
-  pipes = [];
-  gameRunning = true;
-  frame = 0;
-  requestAnimationFrame(gameLoop);
-}
-
-document.addEventListener("keydown", () => bird.velocity = lift);
-canvas.addEventListener("click", () => bird.velocity = lift);
+gameLoop();
