@@ -15,8 +15,8 @@ birdImg.src = "chain.png";
 let bird = {
   x: 50,
   y: 150,
-  width: 40,
-  height: 40,
+  width: 30,
+  height: 30,
   velocity: 0
 };
 
@@ -27,7 +27,7 @@ function drawBird() {
 }
 
 function drawPipes() {
-  ctx.fillStyle = "#666";
+  ctx.fillStyle = "gold";
   pipes.forEach(pipe => {
     ctx.fillRect(pipe.x, 0, 40, pipe.top);
     ctx.fillRect(pipe.x, pipe.bottom, 40, canvas.height - pipe.bottom);

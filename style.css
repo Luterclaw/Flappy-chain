@@ -34,13 +34,22 @@ body {
   font-weight: bold;
 }
 canvas {
-  background: url('watch.png') center/cover no-repeat;
+  background: url('watch.png') center center no-repeat;
+  background-size: contain;
   display: block;
   margin: auto;
+  max-width: 100%;
+  height: auto;
 }
 #gameOverScreen a {
   display: block;
   margin-top: 10px;
   font-weight: bold;
   color: gold;
+}
+@media (max-width: 480px) {
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
 }
