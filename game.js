@@ -12,17 +12,13 @@ let gameRunning = false;
 const BIRD_WIDTH = 40;
 const BIRD_HEIGHT = 40;
 const OBSTACLE_WIDTH = 28;
+const CHAIN_SEGMENT_HEIGHT = 32;
 
 const birdImg = new Image();
 birdImg.src = "character_gold_centered.webp";
 
-const pipeTexture = new Image();
-pipeTexture.src = "obstacle_chain_thick_gold.webp";
-
-let pipePattern = null;
-pipeTexture.onload = () => {
-  pipePattern = ctx.createPattern(pipeTexture, "repeat-y");
-};
+const chainImg = new Image();
+chainImg.src = "obstacle_chain_thick_gold.webp";
 
 let bird = {
   x: 60,
@@ -38,12 +34,18 @@ function drawBird() {
   ctx.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
 }
 
+function drawChainStack(x, yStart, height) {
+  let y = yStart;
+  while (y < yStart + height) {
+    ctx.drawImage(chainImg, x, y, OBSTACLE_WIDTH, CHAIN_SEGMENT_HEIGHT);
+    y += CHAIN_SEGMENT_HEIGHT;
+  }
+}
+
 function drawPipes() {
-  if (!pipePattern) return;
   pipes.forEach(pipe => {
-    ctx.fillStyle = pipePattern;
-    ctx.fillRect(pipe.x, 0, OBSTACLE_WIDTH, pipe.top);
-    ctx.fillRect(pipe.x, pipe.bottom, OBSTACLE_WIDTH, canvas.height - pipe.bottom);
+    drawChainStack(pipe.x, 0, pipe.top);
+    drawChainStack(pipe.x, pipe.bottom, canvas.height - pipe.bottom);
   });
 }
 
