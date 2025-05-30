@@ -9,8 +9,8 @@ body {
   position: absolute;
   width: 100%;
   text-align: center;
-  top: 30%;
-  z-index: 10;
+  top: 25%;
+  z-index: 9999;
   color: white;
 }
 #startScreen button, #gameOverScreen button {
@@ -18,6 +18,9 @@ body {
   font-size: 18px;
   margin-top: 15px;
   border-radius: 8px;
+  background-color: gold;
+  border: none;
+  cursor: pointer;
 }
 #gameContainer {
   position: relative;
@@ -32,6 +35,7 @@ body {
   padding: 6px 10px;
   border-radius: 8px;
   font-weight: bold;
+  z-index: 100;
 }
 canvas {
   background: url('watch.png') center center no-repeat;

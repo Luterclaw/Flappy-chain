@@ -87,6 +87,8 @@ function gameLoop() {
 
 function startGame() {
   document.getElementById("startScreen").style.display = "none";
+  canvas.style.display = "block";
+  scoreDisplay.style.display = "block";
   gameRunning = true;
   gameLoop();
 }
