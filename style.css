@@ -39,7 +39,7 @@ body {
 }
 canvas {
   background: url('watch.png') center center no-repeat;
-  background-size: contain;
+  background-size: cover;
   display: block;
   margin: auto;
   max-width: 100%;

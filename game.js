@@ -13,8 +13,8 @@ const birdImg = new Image();
 birdImg.src = "chain.png";
 
 let bird = {
-  x: 50,
-  y: 150,
+  x: 60,
+  y: 200,
   width: 30,
   height: 30,
   velocity: 0
@@ -89,8 +89,10 @@ function startGame() {
   document.getElementById("startScreen").style.display = "none";
   canvas.style.display = "block";
   scoreDisplay.style.display = "block";
+  bird.y = 200; // Resetear posición
+  bird.velocity = 0;
   gameRunning = true;
-  gameLoop();
+  requestAnimationFrame(gameLoop);
 }
 
 document.addEventListener("keydown", () => bird.velocity = lift);
