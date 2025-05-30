@@ -52,7 +52,7 @@ function drawPipes() {
 function updatePipes() {
   if (frame % 90 === 0) {
     let top = Math.random() * 180 + 20;
-    let gap = 100;
+    let gap = 130;
     pipes.push({ x: canvas.width, top: top, bottom: top + gap, scored: false });
   }
   pipes.forEach(pipe => {
