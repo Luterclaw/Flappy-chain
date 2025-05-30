@@ -13,7 +13,7 @@ let OBSTACLE_WIDTH = 60;
 let characterImg = new Image();
 characterImg.src = "character_gold_centered.webp";
 let columnImg = new Image();
-columnImg.src = "chain_segment_gold.webp";
+columnImg.src = "solid_gold_column.webp";
 let scoreDisplay = document.getElementById("score");
 
 function drawBird() {
