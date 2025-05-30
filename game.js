@@ -10,7 +10,7 @@ let frame = 0;
 let gameRunning = false;
 
 const birdImg = new Image();
-birdImg.src = "chain_compressed.webp";
+birdImg.src = "chain_character_webp.webp";
 
 let bird = {
   x: 60,
@@ -69,7 +69,15 @@ function checkCollision() {
 function endGame() {
   gameRunning = false;
   document.getElementById("gameOverScreen").style.display = "block";
-  document.getElementById("finalScoreText").innerText = "Puntaje final: " + score;
+
+  const finalMessage = score >= 30
+    ? "🎉 ¡Felicidades! Obtenés un 30% de descuento con el código: FLAPPY-30"
+    : "Gracias por jugar. ¡Superá los 30 puntos para ganar un premio!";
+
+  document.getElementById("finalScoreText").innerText = `Puntaje final: ${score}\n${finalMessage}`;
+
+  const link = document.querySelector("#gameOverScreen a");
+  link.style.display = score >= 30 ? "block" : "none";
 }
 
 function gameLoop() {
@@ -89,7 +97,7 @@ function startGame() {
   document.getElementById("startScreen").style.display = "none";
   canvas.style.display = "block";
   scoreDisplay.style.display = "block";
-  bird.y = 200; // Resetear posición
+  bird.y = 200;
   bird.velocity = 0;
   gameRunning = true;
   requestAnimationFrame(gameLoop);
