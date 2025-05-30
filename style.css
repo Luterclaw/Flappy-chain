@@ -1,27 +1,45 @@
 
 body {
-    margin: 0;
-    padding: 0;
-    background: #f8f1e4 url('logo_bg.png') no-repeat center top;
-    background-size: contain;
-    font-family: sans-serif;
+  margin: 0;
+  font-family: sans-serif;
+  background: linear-gradient(to bottom, #f9f4ef, #d9c3a1);
+  overflow: hidden;
+}
+#startScreen, #gameOverScreen {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 30%;
+  z-index: 10;
+}
+#startScreen button, #gameOverScreen button {
+  padding: 10px 20px;
+  font-size: 18px;
+  margin-top: 15px;
+  border-radius: 8px;
 }
 #gameContainer {
-    text-align: center;
+  position: relative;
+  width: 100%;
+  text-align: center;
 }
-#gameOver {
-    display: none;
-    background: rgba(255,255,255,0.9);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    border-radius: 10px;
+#scoreDisplay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #fff5cc;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: bold;
 }
 canvas {
-    display: block;
-    margin: auto;
-    background-color: #87CEEB;
-    border: 2px solid #000;
+  background: url('bg.jpg') repeat-x;
+  background-size: cover;
+  display: block;
+  margin: auto;
+}
+#gameOverScreen a {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
 }
