@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: sans-serif;
-  background: linear-gradient(to bottom, #f9f4ef, #d9c3a1);
+  background: #111;
   overflow: hidden;
 }
 #startScreen, #gameOverScreen {
@@ -11,6 +11,7 @@ body {
   text-align: center;
   top: 30%;
   z-index: 10;
+  color: white;
 }
 #startScreen button, #gameOverScreen button {
   padding: 10px 20px;
@@ -33,8 +34,7 @@ body {
   font-weight: bold;
 }
 canvas {
-  background: url('bg.jpg') repeat-x;
-  background-size: cover;
+  background: url('assets/watch.png') center/cover no-repeat;
   display: block;
   margin: auto;
 }
@@ -42,4 +42,5 @@ canvas {
   display: block;
   margin-top: 10px;
   font-weight: bold;
+  color: gold;
 }

@@ -2,25 +2,33 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const scoreDisplay = document.getElementById("scoreDisplay");
+
 let gravity = 0.25;
 let lift = -4.6;
-let bird = { x: 50, y: 150, radius: 12, velocity: 0 };
-let pipes = [];
-let frame = 0;
 let score = 0;
+let frame = 0;
 let gameRunning = false;
 
+const birdImg = new Image();
+birdImg.src = "assets/chain.png";
+
+let bird = {
+  x: 50,
+  y: 150,
+  width: 40,
+  height: 40,
+  velocity: 0
+};
+
+let pipes = [];
+
 function drawBird() {
-  ctx.beginPath();
-  ctx.arc(bird.x, bird.y, bird.radius, 0, 2 * Math.PI);
-  ctx.fillStyle = "#FFD700";
-  ctx.fill();
-  ctx.stroke();
+  ctx.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
 }
 
 function drawPipes() {
+  ctx.fillStyle = "#666";
   pipes.forEach(pipe => {
-    ctx.fillStyle = "#333";
     ctx.fillRect(pipe.x, 0, 40, pipe.top);
     ctx.fillRect(pipe.x, pipe.bottom, 40, canvas.height - pipe.bottom);
   });
@@ -46,14 +54,14 @@ function updatePipes() {
 function checkCollision() {
   for (let pipe of pipes) {
     if (
-      bird.x + bird.radius > pipe.x &&
-      bird.x - bird.radius < pipe.x + 40 &&
-      (bird.y - bird.radius < pipe.top || bird.y + bird.radius > pipe.bottom)
+      bird.x + bird.width > pipe.x &&
+      bird.x < pipe.x + 40 &&
+      (bird.y < pipe.top || bird.y + bird.height > pipe.bottom)
     ) {
       endGame();
     }
   }
-  if (bird.y + bird.radius > canvas.height || bird.y - bird.radius < 0) {
+  if (bird.y + bird.height > canvas.height || bird.y < 0) {
     endGame();
   }
 }
@@ -70,12 +78,9 @@ function gameLoop() {
   drawBird();
   drawPipes();
   updatePipes();
-
   bird.velocity += gravity;
   bird.y += bird.velocity;
-
   checkCollision();
-
   frame++;
   requestAnimationFrame(gameLoop);
 }
