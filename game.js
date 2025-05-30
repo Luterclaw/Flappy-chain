@@ -53,7 +53,10 @@ function updatePipes() {
   if (frame % 90 === 0) {
     let top = Math.random() * 180 + 20;
     let gap = 130;
-    pipes.push({ x: canvas.width, top: top, bottom: top + gap, scored: false });
+    let centerY = Math.random() * (canvas.height - gap - 100) + 50; // margen de seguridad
+    let top = centerY - gap / 2;
+    let bottom = centerY + gap / 2;
+    pipes.push({ x: canvas.width, top: top, bottom: bottom, scored: false });
   }
   pipes.forEach(pipe => {
     pipe.x -= 2;
