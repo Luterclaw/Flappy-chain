@@ -10,7 +10,10 @@ let frame = 0;
 let gameRunning = false;
 
 const birdImg = new Image();
-birdImg.src = "chain_character_webp.webp";
+birdImg.src = "character_circle_gold.webp";
+
+const pipeImg = new Image();
+pipeImg.src = "obstacle_chain_gold.webp";
 
 let bird = {
   x: 60,
@@ -27,10 +30,9 @@ function drawBird() {
 }
 
 function drawPipes() {
-  ctx.fillStyle = "gold";
   pipes.forEach(pipe => {
-    ctx.fillRect(pipe.x, 0, 40, pipe.top);
-    ctx.fillRect(pipe.x, pipe.bottom, 40, canvas.height - pipe.bottom);
+    ctx.drawImage(pipeImg, pipe.x, 0, 40, pipe.top);
+    ctx.drawImage(pipeImg, pipe.x, pipe.bottom, 40, canvas.height - pipe.bottom);
   });
 }
 
