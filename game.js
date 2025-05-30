@@ -10,10 +10,10 @@ let frame = 0;
 let gameRunning = false;
 
 const birdImg = new Image();
-birdImg.src = "character_circle_gold.webp";
+birdImg.src = "character_gold_full.webp";
 
 const pipeImg = new Image();
-pipeImg.src = "obstacle_chain_gold.webp";
+pipeImg.src = "obstacle_chain_thick_gold.webp";
 
 let bird = {
   x: 60,
