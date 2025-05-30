@@ -1,0 +1,27 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #f8f1e4 url('logo_bg.png') no-repeat center top;
+    background-size: contain;
+    font-family: sans-serif;
+}
+#gameContainer {
+    text-align: center;
+}
+#gameOver {
+    display: none;
+    background: rgba(255,255,255,0.9);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 10px;
+}
+canvas {
+    display: block;
+    margin: auto;
+    background-color: #87CEEB;
+    border: 2px solid #000;
+}
