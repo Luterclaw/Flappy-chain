@@ -10,7 +10,7 @@ let frame = 0;
 let gameRunning = false;
 
 const birdImg = new Image();
-birdImg.src = "chain.png";
+birdImg.src = "chain_compressed.webp";
 
 let bird = {
   x: 60,
