@@ -51,7 +51,6 @@ function drawPipes() {
 
 function updatePipes() {
   if (frame % 90 === 0) {
-    let top = Math.random() * 180 + 20;
     let gap = 130;
     let centerY = Math.random() * (canvas.height - gap - 100) + 50; // margen de seguridad
     let top = centerY - gap / 2;
