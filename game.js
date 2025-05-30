@@ -9,6 +9,11 @@ let score = 0;
 let frame = 0;
 let gameRunning = false;
 
+// Nuevas dimensiones basadas en imágenes reales
+const BIRD_WIDTH = 40;
+const BIRD_HEIGHT = 40;
+const OBSTACLE_WIDTH = 28;
+
 const birdImg = new Image();
 birdImg.src = "character_gold_full.webp";
 
@@ -18,8 +23,8 @@ pipeImg.src = "obstacle_chain_thick_gold.webp";
 let bird = {
   x: 60,
   y: 200,
-  width: 30,
-  height: 30,
+  width: BIRD_WIDTH,
+  height: BIRD_HEIGHT,
   velocity: 0
 };
 
@@ -31,8 +36,8 @@ function drawBird() {
 
 function drawPipes() {
   pipes.forEach(pipe => {
-    ctx.drawImage(pipeImg, pipe.x, 0, 40, pipe.top);
-    ctx.drawImage(pipeImg, pipe.x, pipe.bottom, 40, canvas.height - pipe.bottom);
+    ctx.drawImage(pipeImg, pipe.x, 0, OBSTACLE_WIDTH, pipe.top);
+    ctx.drawImage(pipeImg, pipe.x, pipe.bottom, OBSTACLE_WIDTH, canvas.height - pipe.bottom);
   });
 }
 
@@ -44,20 +49,20 @@ function updatePipes() {
   }
   pipes.forEach(pipe => {
     pipe.x -= 2;
-    if (!pipe.scored && pipe.x + 40 < bird.x) {
+    if (!pipe.scored && pipe.x + OBSTACLE_WIDTH < bird.x) {
       score += 1;
       scoreDisplay.innerText = "Puntaje: " + score;
       pipe.scored = true;
     }
   });
-  pipes = pipes.filter(pipe => pipe.x + 40 > 0);
+  pipes = pipes.filter(pipe => pipe.x + OBSTACLE_WIDTH > 0);
 }
 
 function checkCollision() {
   for (let pipe of pipes) {
     if (
       bird.x + bird.width > pipe.x &&
-      bird.x < pipe.x + 40 &&
+      bird.x < pipe.x + OBSTACLE_WIDTH &&
       (bird.y < pipe.top || bird.y + bird.height > pipe.bottom)
     ) {
       endGame();
@@ -101,7 +106,10 @@ function startGame() {
   scoreDisplay.style.display = "block";
   bird.y = 200;
   bird.velocity = 0;
+  score = 0;
+  pipes = [];
   gameRunning = true;
+  frame = 0;
   requestAnimationFrame(gameLoop);
 }
 
