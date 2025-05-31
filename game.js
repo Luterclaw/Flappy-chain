@@ -12,7 +12,7 @@ let gameRunning = false;
 const BIRD_WIDTH = 40;
 const BIRD_HEIGHT = 40;
 const OBSTACLE_WIDTH = 60;
-const CHAIN_SEGMENT_HEIGHT = 80;
+const CHAIN_SEGMENT_HEIGHT = 100;
 
 const birdImg = new Image();
 birdImg.src = "character_gold_centered.webp";
