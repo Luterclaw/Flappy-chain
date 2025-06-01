@@ -12,6 +12,7 @@ let gameRunning = false;
 const BIRD_WIDTH = 40;
 const BIRD_HEIGHT = 40;
 const OBSTACLE_WIDTH = 70;
+const CHAIN_SEGMENT_HEIGHT = 80;
 
 const birdImg = new Image();
 birdImg.src = "character_gold_centered.webp";
@@ -34,7 +35,11 @@ function drawBird() {
 }
 
 function drawChainStack(x, yStart, height) {
-  ctx.drawImage(chainImg, x, yStart, OBSTACLE_WIDTH, height);
+  let y = yStart;
+  while (y < yStart + height) {
+    ctx.drawImage(chainImg, x, y, OBSTACLE_WIDTH, CHAIN_SEGMENT_HEIGHT);
+    y += CHAIN_SEGMENT_HEIGHT;
+  }
 }
 
 function drawPipes() {
@@ -45,7 +50,7 @@ function drawPipes() {
 }
 
 function updatePipes() {
-  if (frame % 90 === 0) {
+  if (frame % 100 === 0) {
     let gap = 130;
     let centerY = Math.random() * (canvas.height - gap - 100) + 50;
     let top = centerY - gap / 2;
@@ -80,38 +85,39 @@ function checkCollision() {
   }
 }
 
-function saveScore(score) {
-  const name = prompt("Ingresá tu nombre para el ranking:");
-  if (!name) return;
-  const scores = JSON.parse(localStorage.getItem("flappyScores")) || [];
-  scores.push({ name, score });
-  scores.sort((a, b) => b.score - a.score);
-  scores.splice(5); // top 5
-  localStorage.setItem("flappyScores", JSON.stringify(scores));
-}
-
-function showRanking() {
-  const scores = JSON.parse(localStorage.getItem("flappyScores")) || [];
-  const rankingHTML = scores.map(s => `<li>${s.name}: ${s.score}</li>`).join("");
-  const ul = document.getElementById("rankingList");
-  if (ul) ul.innerHTML = rankingHTML;
-}
-
 function endGame() {
   gameRunning = false;
   document.getElementById("gameOverScreen").style.display = "block";
+  document.getElementById("finalScoreText").innerText = `Puntaje final: ${score}`;
+  updateRanking();
+}
 
-  const finalMessage = score >= 30
-    ? "🎉 ¡Felicidades! Obtenés un 30% de descuento con el código: FLAPPY-30"
-    : "Gracias por jugar. ¡Seguí intentando para superarte!";
+function saveScore() {
+  const name = document.getElementById("playerNameInput").value || "Anónimo";
+  let scores = JSON.parse(localStorage.getItem("ranking") || "[]");
+  scores.push({ name, score });
+  scores.sort((a, b) => b.score - a.score);
+  scores = scores.slice(0, 5);
+  localStorage.setItem("ranking", JSON.stringify(scores));
+  updateRanking();
+}
 
-  document.getElementById("finalScoreText").innerText = `Puntaje final: ${score}\n${finalMessage}`;
+function updateRanking() {
+  const scores = JSON.parse(localStorage.getItem("ranking") || "[]");
 
-  const link = document.querySelector("#gameOverScreen a");
-  link.style.display = score >= 30 ? "block" : "none";
+  const startList = document.getElementById("rankingListStart");
+  const endList = document.getElementById("rankingListEnd");
 
-  saveScore(score);
-  showRanking();
+  [startList, endList].forEach(list => {
+    if (list) {
+      list.innerHTML = "";
+      scores.forEach(s => {
+        const li = document.createElement("li");
+        li.textContent = `${s.name}: ${s.score}`;
+        list.appendChild(li);
+      });
+    }
+  });
 }
 
 function gameLoop() {
@@ -137,8 +143,8 @@ function startGame() {
   pipes = [];
   gameRunning = true;
   frame = 0;
+  updateRanking();
   requestAnimationFrame(gameLoop);
-  showRanking();
 }
 
 document.addEventListener("keydown", () => bird.velocity = lift);

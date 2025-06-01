@@ -1,38 +1,40 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flappy Chain Ranking</title>
-  <style>
-    body { font-family: sans-serif; text-align: center; background: #f7f7f7; }
-    canvas { background: #def; display: none; margin-top: 20px; }
-    #startScreen, #gameOverScreen { margin-top: 30px; }
-    #rankingDiv { margin-top: 30px; }
-    #scoreDisplay { font-size: 24px; display: none; margin-top: 10px; }
-    ul { list-style: none; padding: 0; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flappy Chain - Álvaro Joyas</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="startScreen">
-    <h1>Flappy Chain</h1>
-    <button onclick="startGame()">Jugar</button>
+    <h1>🎮 Flappy Chain</h1>
+    <p>🕊️ Esquivá cadenas, ganá descuentos</p>
+    <button onclick="startGame()">¡Jugar ahora!</button>
+
+    <div id="rankingStart">
+      <h3>🏆 Ranking Top 5</h3>
+      <ol id="rankingListStart"></ol>
+    </div>
   </div>
 
-  <canvas id="gameCanvas" width="480" height="640"></canvas>
-  <div id="scoreDisplay">Puntaje: 0</div>
+  <div id="gameContainer">
+    <canvas id="gameCanvas" width="320" height="480" style="display:none;"></canvas>
+    <div id="scoreDisplay" style="display:none;">Puntaje: 0</div>
+  </div>
 
   <div id="gameOverScreen" style="display:none;">
     <h2>Fin del juego</h2>
     <p id="finalScoreText"></p>
-    <a href="https://alvarojoyas.com" target="_blank" style="display:none;">Ir a la tienda</a>
-    <button onclick="startGame()">Jugar de nuevo</button>
-  </div>
+    <input type="text" id="playerNameInput" placeholder="Tu nombre" />
+    <button onclick="saveScore()">Guardar puntaje</button>
+    <a href="https://alvarojoyas.com" target="_blank">Ir a la tienda</a>
+    <button onclick="location.reload()">Volver a jugar</button>
 
-  <div id="rankingDiv">
-    <h3>🏆 Top Jugadores</h3>
-    <ul id="rankingList"></ul>
+    <div id="rankingEnd">
+      <h3>🏆 Ranking Top 5</h3>
+      <ol id="rankingListEnd"></ol>
+    </div>
   </div>
 
   <script src="game.js"></script>
