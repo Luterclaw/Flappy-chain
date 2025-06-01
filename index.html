@@ -3,31 +3,91 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flappy Chain Ranking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flappy Chain - Álvaro Joyas</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
-    body { font-family: sans-serif; text-align: center; background: #f7f7f7; }
-    canvas { background: #def; display: none; margin-top: 20px; }
-    #startScreen, #gameOverScreen { margin-top: 30px; }
-    #rankingDiv { margin-top: 30px; }
-    #scoreDisplay { font-size: 24px; display: none; margin-top: 10px; }
-    ul { list-style: none; padding: 0; }
+    body {
+      background: #fdf8f0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    #rankingDiv {
+      margin-top: 30px;
+      text-align: center;
+      border-top: 2px solid #d4af37;
+      padding-top: 20px;
+    }
+
+    #rankingDiv h3 {
+      color: #d4af37;
+      font-size: 24px;
+      text-shadow: 1px 1px 2px #00000033;
+    }
+
+    #rankingList {
+      list-style: none;
+      padding: 0;
+      font-size: 18px;
+      color: #444;
+    }
+
+    #rankingList li {
+      color: #b8860b;
+      font-weight: bold;
+      text-shadow: 1px 1px 1px #00000022;
+    }
+
+    #nameInputContainer {
+      display: none;
+      margin-top: 10px;
+    }
+
+    input#playerName {
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      background: #d4af37;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #b88a00;
+    }
   </style>
 </head>
 <body>
   <div id="startScreen">
-    <h1>Flappy Chain</h1>
-    <button onclick="startGame()">Jugar</button>
+    <h1>🎮 Flappy Chain</h1>
+    <p>🕊️ Esquivá cadenas, ganá descuentos</p>
+    <button onclick="startGame()">¡Jugar ahora!</button>
   </div>
 
-  <canvas id="gameCanvas" width="480" height="640"></canvas>
-  <div id="scoreDisplay">Puntaje: 0</div>
+  <div id="gameContainer">
+    <canvas id="gameCanvas" width="320" height="480" style="display:none;"></canvas>
+    <div id="scoreDisplay" style="display:none;">Puntaje: 0</div>
+  </div>
 
   <div id="gameOverScreen" style="display:none;">
     <h2>Fin del juego</h2>
     <p id="finalScoreText"></p>
-    <a href="https://alvarojoyas.com" target="_blank" style="display:none;">Ir a la tienda</a>
-    <button onclick="startGame()">Jugar de nuevo</button>
+    <div id="nameInputContainer">
+      <label for="playerName">📛 Ingresá tu nombre:</label><br/>
+      <input type="text" id="playerName" placeholder="Tu nombre" /><br/>
+      <button onclick="saveScoreFromInput()">Guardar en el ranking</button>
+    </div>
+    <a href="https://alvarojoyas.com" target="_blank" style="display:none;">Ir a la tienda</a><br/>
+    <button onclick="location.reload()">Volver a jugar</button>
   </div>
 
   <div id="rankingDiv">
@@ -36,5 +96,18 @@
   </div>
 
   <script src="game_ranking_para_todos.js"></script>
+  <script>
+    function saveScoreFromInput() {
+      const name = document.getElementById("playerName").value.trim();
+      if (!name) return;
+      const scores = JSON.parse(localStorage.getItem("flappyScores")) || [];
+      scores.push({ name, score });
+      scores.sort((a, b) => b.score - a.score);
+      scores.splice(5);
+      localStorage.setItem("flappyScores", JSON.stringify(scores));
+      showRanking();
+      document.getElementById("nameInputContainer").style.display = "none";
+    }
+  </script>
 </body>
 </html>
