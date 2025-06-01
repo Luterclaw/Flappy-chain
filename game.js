@@ -133,7 +133,7 @@ function gameLoop() {
     checkCollision();
   }
 
-  frame++;
+  frame++; // se incrementa siempre
   requestAnimationFrame(gameLoop);
 }
 
