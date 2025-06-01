@@ -11,8 +11,7 @@ let gameRunning = false;
 
 const BIRD_WIDTH = 40;
 const BIRD_HEIGHT = 40;
-const OBSTACLE_WIDTH = 60;
-const CHAIN_SEGMENT_HEIGHT = 80;
+const OBSTACLE_WIDTH = 70;
 
 const birdImg = new Image();
 birdImg.src = "character_gold_centered.webp";
@@ -35,9 +34,7 @@ function drawBird() {
 }
 
 function drawChainStack(x, yStart, height) {
-  let y = yStart;
-  while (y < yStart + height) {
-    ctx.drawImage(chainImg, x, y, OBSTACLE_WIDTH, CHAIN_SEGMENT_HEIGHT);
+  ctx.drawImage(chainImg, x, yStart, OBSTACLE_WIDTH, height);
 }
 
 function drawPipes() {
@@ -83,45 +80,38 @@ function checkCollision() {
   }
 }
 
+function saveScore(score) {
+  const name = prompt("Ingresá tu nombre para el ranking:");
+  if (!name) return;
+  const scores = JSON.parse(localStorage.getItem("flappyScores")) || [];
+  scores.push({ name, score });
+  scores.sort((a, b) => b.score - a.score);
+  scores.splice(5); // top 5
+  localStorage.setItem("flappyScores", JSON.stringify(scores));
+}
+
+function showRanking() {
+  const scores = JSON.parse(localStorage.getItem("flappyScores")) || [];
+  const rankingHTML = scores.map(s => `<li>${s.name}: ${s.score}</li>`).join("");
+  const ul = document.getElementById("rankingList");
+  if (ul) ul.innerHTML = rankingHTML;
+}
+
 function endGame() {
   gameRunning = false;
   document.getElementById("gameOverScreen").style.display = "block";
 
   const finalMessage = score >= 30
     ? "🎉 ¡Felicidades! Obtenés un 30% de descuento con el código: FLAPPY-30"
-    : "Gracias por jugar. ¡Superá los 30 puntos para ganar un premio!";
+    : "Gracias por jugar. ¡Seguí intentando para superarte!";
 
   document.getElementById("finalScoreText").innerText = `Puntaje final: ${score}\n${finalMessage}`;
+
   const link = document.querySelector("#gameOverScreen a");
   link.style.display = score >= 30 ? "block" : "none";
 
-  document.getElementById("nameInputContainer").style.display = "block";
+  saveScore(score);
   showRanking();
-  document.getElementById("rankingDiv").style.display = "block";
-}
-
-function showRanking() {
-  const scores = JSON.parse(localStorage.getItem("flappyScores")) || [];
-  const rankingList = document.getElementById("rankingList");
-  rankingList.innerHTML = "";
-  scores.forEach(entry => {
-    const li = document.createElement("li");
-    li.textContent = `${entry.name} - ${entry.score} pts`;
-    rankingList.appendChild(li);
-  });
-}
-
-function saveScoreFromInput() {
-  const name = document.getElementById("playerName").value.trim();
-  if (!name) return;
-  const scores = JSON.parse(localStorage.getItem("flappyScores")) || [];
-  scores.push({ name, score });
-  scores.sort((a, b) => b.score - a.score);
-  scores.splice(5);
-  localStorage.setItem("flappyScores", JSON.stringify(scores));
-  showRanking();
-  document.getElementById("nameInputContainer").style.display = "none";
-  document.getElementById("rankingDiv").style.display = "block";
 }
 
 function gameLoop() {
@@ -139,19 +129,16 @@ function gameLoop() {
 
 function startGame() {
   document.getElementById("startScreen").style.display = "none";
-  document.getElementById("gameOverScreen").style.display = "none";
-  document.getElementById("nameInputContainer").style.display = "none";
-  document.getElementById("rankingDiv").style.display = "none";
-  scoreDisplay.style.display = "block";
   canvas.style.display = "block";
-  score = 0;
-  frame = 0;
-  pipes = [];
+  scoreDisplay.style.display = "block";
   bird.y = 200;
   bird.velocity = 0;
-  scoreDisplay.innerText = "Puntaje: 0";
+  score = 0;
+  pipes = [];
   gameRunning = true;
+  frame = 0;
   requestAnimationFrame(gameLoop);
+  showRanking();
 }
 
 document.addEventListener("keydown", () => bird.velocity = lift);
