@@ -3,29 +3,38 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flappy Chain - Álvaro Joyas</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flappy Chain Ranking</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; background: #f7f7f7; }
+    canvas { background: #def; display: none; margin-top: 20px; }
+    #startScreen, #gameOverScreen { margin-top: 30px; }
+    #rankingDiv { margin-top: 30px; }
+    #scoreDisplay { font-size: 24px; display: none; margin-top: 10px; }
+    ul { list-style: none; padding: 0; }
+  </style>
 </head>
 <body>
   <div id="startScreen">
-    <h1>🎮 Flappy Chain</h1>
-    <p>🕊️ Esquivá cadenas, ganá descuentos</p>
-    <button onclick="startGame()">¡Jugar ahora!</button>
+    <h1>Flappy Chain</h1>
+    <button onclick="startGame()">Jugar</button>
   </div>
 
-  <div id="gameContainer">
-    <canvas id="gameCanvas" width="320" height="480" style="display:none;"></canvas>
-    <div id="scoreDisplay" style="display:none;">Puntaje: 0</div>
-  </div>
+  <canvas id="gameCanvas" width="480" height="640"></canvas>
+  <div id="scoreDisplay">Puntaje: 0</div>
 
   <div id="gameOverScreen" style="display:none;">
     <h2>Fin del juego</h2>
     <p id="finalScoreText"></p>
-    <a href="https://alvarojoyas.com" target="_blank">Ir a la tienda</a>
-    <button onclick="location.reload()">Volver a jugar</button>
+    <a href="https://alvarojoyas.com" target="_blank" style="display:none;">Ir a la tienda</a>
+    <button onclick="startGame()">Jugar de nuevo</button>
   </div>
 
-  <script src="game.js"></script>
+  <div id="rankingDiv">
+    <h3>🏆 Top Jugadores</h3>
+    <ul id="rankingList"></ul>
+  </div>
+
+  <script src="game_ranking_para_todos.js"></script>
 </body>
 </html>
