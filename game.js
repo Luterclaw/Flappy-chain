@@ -81,7 +81,7 @@ function checkCollision() {
 }
 
 function saveScore(score) {
-  const name = prompt("🎉 ¡Ganaste! Ingresá tu nombre para el ranking:");
+  const name = prompt("Ingresá tu nombre para el ranking:");
   if (!name) return;
   const scores = JSON.parse(localStorage.getItem("flappyScores")) || [];
   scores.push({ name, score });
@@ -103,14 +103,14 @@ function endGame() {
 
   const finalMessage = score >= 30
     ? "🎉 ¡Felicidades! Obtenés un 30% de descuento con el código: FLAPPY-30"
-    : "Gracias por jugar. ¡Superá los 30 puntos para ganar un premio!";
+    : "Gracias por jugar. ¡Seguí intentando para superarte!";
 
   document.getElementById("finalScoreText").innerText = `Puntaje final: ${score}\n${finalMessage}`;
 
   const link = document.querySelector("#gameOverScreen a");
   link.style.display = score >= 30 ? "block" : "none";
 
-  if (score >= 30) saveScore(score);
+  saveScore(score);
   showRanking();
 }
 
