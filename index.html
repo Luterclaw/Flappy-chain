@@ -1,68 +1,62 @@
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
+>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Flappy Chain - Álvaro Joyas</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      background: #fdf8f0;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    #rankingDiv {
-      margin-top: 30px;
+      font-family: Arial, sans-serif;
+      background-color: #fffbe6;
       text-align: center;
-      border-top: 2px solid #d4af37;
-      padding-top: 20px;
+      margin: 0;
+      padding: 0;
     }
-
-    #rankingDiv h3 {
-      color: #d4af37;
-      font-size: 24px;
-      text-shadow: 1px 1px 2px #00000033;
+    #startScreen, #gameOverScreen, #nameInputContainer, #rankingDiv {
+      padding: 20px;
     }
-
+    h1, h2 {
+      color: #bfa046;
+      text-shadow: 1px 1px 2px #00000020;
+    }
+    button {
+      background-color: #bfa046;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #a08936;
+    }
+    input[type="text"] {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    #rankingDiv {
+      background-color: #fdf7e3;
+      border: 1px solid #e3d5b1;
+      border-radius: 10px;
+      display: none;
+      max-width: 300px;
+      margin: 20px auto;
+      padding: 15px;
+    }
     #rankingList {
       list-style: none;
       padding: 0;
-      font-size: 18px;
-      color: #444;
+      text-align: left;
     }
-
     #rankingList li {
-      color: #b8860b;
-      font-weight: bold;
-      text-shadow: 1px 1px 1px #00000022;
-    }
-
-    #nameInputContainer {
-      display: none;
-      margin-top: 10px;
-    }
-
-    input#playerName {
-      padding: 6px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-
-    button {
-      background: #d4af37;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 6px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    button:hover {
-      background: #b88a00;
+      padding: 5px 0;
+      border-bottom: 1px solid #e3d5b1;
     }
   </style>
 </head>
@@ -81,33 +75,21 @@
   <div id="gameOverScreen" style="display:none;">
     <h2>Fin del juego</h2>
     <p id="finalScoreText"></p>
-    <div id="nameInputContainer">
-      <label for="playerName">📛 Ingresá tu nombre:</label><br/>
-      <input type="text" id="playerName" placeholder="Tu nombre" /><br/>
-      <button onclick="saveScoreFromInput()">Guardar en el ranking</button>
-    </div>
-    <a href="https://alvarojoyas.com" target="_blank" style="display:none;">Ir a la tienda</a><br/>
-    <button onclick="location.reload()">Volver a jugar</button>
+    <a href="https://alvarojoyas.com" target="_blank">Ir a la tienda</a>
+    <button onclick="startGame()">Volver a jugar</button>
+  </div>
+
+  <div id="nameInputContainer" style="display:none;">
+    <p>Ingresá tu nombre para el ranking:</p>
+    <input type="text" id="playerName" placeholder="Tu nombre" />
+    <button onclick="saveScoreFromInput()">Guardar</button>
   </div>
 
   <div id="rankingDiv">
-    <h3>🏆 Top Jugadores</h3>
+    <h3>🏆 Top 5 jugadores</h3>
     <ul id="rankingList"></ul>
   </div>
 
   <script src="game.js"></script>
-  <script>
-    function saveScoreFromInput() {
-      const name = document.getElementById("playerName").value.trim();
-      if (!name) return;
-      const scores = JSON.parse(localStorage.getItem("flappyScores")) || [];
-      scores.push({ name, score });
-      scores.sort((a, b) => b.score - a.score);
-      scores.splice(5);
-      localStorage.setItem("flappyScores", JSON.stringify(scores));
-      showRanking();
-      document.getElementById("nameInputContainer").style.display = "none";
-    }
-  </script>
 </body>
 </html>
