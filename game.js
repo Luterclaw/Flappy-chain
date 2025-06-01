@@ -117,15 +117,18 @@ function updateRanking() {
 }
 
 function gameLoop() {
-  if (!gameRunning) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBird();
   drawPipes();
-  updatePipes();
-  bird.velocity += gravity;
-  bird.y += bird.velocity;
-  checkCollision();
-  frame++;
+
+  if (gameRunning) {
+    updatePipes();
+    bird.velocity += gravity;
+    bird.y += bird.velocity;
+    checkCollision();
+    frame++;
+  }
+
   requestAnimationFrame(gameLoop);
 }
 
