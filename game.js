@@ -133,9 +133,12 @@ function gameLoop() {
     checkCollision();
   }
 
-  frame++; // se incrementa siempre
+  frame++;
   requestAnimationFrame(gameLoop);
 }
+
+// Iniciar el bucle de animación desde el principio
+requestAnimationFrame(gameLoop);
 
 function startGame() {
   document.getElementById("startScreen").style.display = "none";
