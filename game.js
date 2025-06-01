@@ -133,17 +133,19 @@ function startGame() {
   document.getElementById("startScreen").style.display = "none";
   canvas.style.display = "block";
   scoreDisplay.style.display = "block";
+
   bird.y = 200;
   bird.velocity = 0;
   score = 0;
   pipes = [];
   gameRunning = false;
   frame = 0;
-  drawBird(); // dibuja el personaje esperando
-  drawPipes(); // dibuja fondo vacío
+  scoreDisplay.innerText = "Puntaje: 0";
+  drawBird();
+  drawPipes();
 
-  // El juego empieza con el primer salto
   function handleFirstJump() {
+    if (gameRunning) return; // evita múltiples inicios
     bird.velocity = lift;
     gameRunning = true;
     requestAnimationFrame(gameLoop);
@@ -151,6 +153,8 @@ function startGame() {
     canvas.removeEventListener("click", handleFirstJump);
   }
 
+  document.removeEventListener("keydown", handleFirstJump);
+  canvas.removeEventListener("click", handleFirstJump);
   document.addEventListener("keydown", handleFirstJump);
   canvas.addEventListener("click", handleFirstJump);
 
