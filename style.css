@@ -11,7 +11,7 @@ body {
   text-align: center;
   top: 25%;
   z-index: 9999;
-  color: white;
+  color: blue;
 }
 #startScreen button, #gameOverScreen button {
   padding: 10px 20px;
