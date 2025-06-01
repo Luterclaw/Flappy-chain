@@ -38,8 +38,6 @@ function drawChainStack(x, yStart, height) {
   let y = yStart;
   while (y < yStart + height) {
     ctx.drawImage(chainImg, x, y, OBSTACLE_WIDTH, CHAIN_SEGMENT_HEIGHT);
-    y += CHAIN_SEGMENT_HEIGHT;
-  }
 }
 
 function drawPipes() {
